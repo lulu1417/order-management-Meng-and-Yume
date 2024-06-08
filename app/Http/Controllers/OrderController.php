@@ -22,10 +22,9 @@ class OrderController extends Controller
     {
         try {
             DB::beginTransaction();
-
             $order = Order::create(
                 [
-                    'no' => Str::random(10),
+                    'no' => hash_hmac('sha256', time(), 'orderNo'),
                     'buyer_name' => $request->buyer_name
                 ]
             );
@@ -59,24 +58,39 @@ class OrderController extends Controller
 
     public function update(Order $order, UpdateOrderRequest $request)
     {
-        $order->update($request->only('buyer_name'));
+        try {
+            DB::beginTransaction();
 
-        if ($request->has('items')) {
-            foreach ($request->items as $item) {
-                if (isset($item['id'])) {
-                    if (isset($item['_delete']) && $item['_delete']) {
-                        OrderItem::destroy($item['id']);
+            $order->update($request->only('buyer_name'));
+            if ($request->has('items')) {
+                foreach ($request->items as $item) {
+                    if (isset($item['id'])) {
+                        if (isset($item['_delete']) && $item['_delete']) {
+                            OrderItem::destroy($item['id']);
+                        } else {
+                            $orderItem = OrderItem::findOrFail($item['id']);
+                            $orderItem->update($item);
+                        }
                     } else {
-                        $orderItem = OrderItem::findOrFail($item['id']);
-                        $orderItem->update($item);
+                        $order->items()->create($item);
                     }
-                } else {
-                    $order->items()->create($item);
                 }
             }
-        }
 
-        return response()->json($order->load('items.product'));
+            DB::commit();
+
+            return response()->json($order->load('items.product'));
+        } catch (\Throwable $throwable) {
+            DB::rollBack();
+
+            @Log::error(
+                'OrderController@update error',
+                [
+                    'message' => $throwable->getMessage()
+                ]
+            );
+            throw $throwable;
+        }
     }
 
     public function destroy(Order $order)

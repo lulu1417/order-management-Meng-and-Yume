@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+use App\Models\Product;
+use Illuminate\Http\Response;
+
+class ProductController extends Controller
+{
+    public function index()
+    {
+        return response()->json(Product::all());
+    }
+
+    public function store(StoreProductRequest $request)
+    {
+        Product::create(
+            [
+                'name' => $request->name,
+                'price' => $request->price,
+            ]
+        );
+
+        return response()->json(['success' => 'true']);
+    }
+
+    public function show(Product $product)
+    {
+        return response()->json($product);
+    }
+
+    public function update(Product $product, UpdateProductRequest $request)
+    {
+        $product->update(
+            [
+                'name' => $request->name,
+                'price' => $request->price,
+            ]
+        );
+
+        return response()->json($product);
+    }
+
+    public function destroy(Product $product)
+    {
+        if (!$product->canDelete()){
+            abort(Response::HTTP_CONFLICT, __('errors.product.can_not_delete'));
+        }
+
+        $product->delete();
+        return response()->json(['success' => 'true']);
+    }
+}

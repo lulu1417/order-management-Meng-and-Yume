@@ -31,20 +31,21 @@ class UpdateOrderRequest extends FormRequest
                     'string',
                     'max:255'
                 ],
-            'order_items' => [
+            'items' => [
                 'sometimes',
                 'required',
                 'array',
             ],
-            'order_items.*.id' => [
+            'items.*.id' => [
                 'exists:order_items,id'
             ],
-            'order_items.*.product_id' =>
+            'items.*.product_id' =>
                 [
                     'exists:products,id'
                 ],
-            'order_items.*.count' =>
+            'items.*.count' =>
                 [
+                    'required_with:items.*.product_id',
                     'integer',
                     'min:1'
                 ],

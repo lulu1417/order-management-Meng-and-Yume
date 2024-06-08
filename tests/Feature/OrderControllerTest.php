@@ -60,12 +60,11 @@ class OrderControllerTest extends TestCase
     {
         $product = Product::factory()->create();
 
-        $buyerName = 'buyer_1';
         $this->withHeader('Accept', 'application/json')
             ->post(
                 'api/orders',
                 [
-                    'buyer_name' => $buyerName,
+                    'buyer_name' => $buyerName = 'buyer_1',
                     'items' =>
                         [
                             [
