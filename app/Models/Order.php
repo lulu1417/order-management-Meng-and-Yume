@@ -19,4 +19,13 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class, 'order_id');
     }
+
+    protected $appends = ['total_amount'];
+
+    public function getTotalAmountAttribute()
+    {
+        return $this->items->sum(function ($orderItem) {
+            return $orderItem->count * $orderItem->product->price;
+        });
+    }
 }

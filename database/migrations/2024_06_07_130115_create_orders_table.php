@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('no')->comment('訂單流水號');
+            $table->string('no')->comment('訂單流水號')->unique();
             $table->string('buyer_name');
             $table->timestamps();
         });

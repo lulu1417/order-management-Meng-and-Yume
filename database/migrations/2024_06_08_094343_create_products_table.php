@@ -15,7 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('商品名稱');
+            $table->string('name')->comment('商品名稱')->unique();
             $table->float('price')->comment('商品售價');
             $table->timestamps();
         });
