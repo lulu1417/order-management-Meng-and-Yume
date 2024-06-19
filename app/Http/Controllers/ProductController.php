@@ -16,12 +16,7 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        Product::create(
-            [
-                'name' => $request->name,
-                'price' => $request->price,
-            ]
-        );
+        Product::create($request->all());
 
         return response()->json(['success' => 'true']);
     }
@@ -33,12 +28,7 @@ class ProductController extends Controller
 
     public function update(Product $product, UpdateProductRequest $request)
     {
-        $product->update(
-            [
-                'name' => $request->name,
-                'price' => $request->price,
-            ]
-        );
+        $product->update($request->all());
 
         return response()->json($product);
     }

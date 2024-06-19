@@ -10,10 +10,10 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable
-        = [
+    protected $fillable = [
             'name',
-            'price'
+            'price',
+            'description'
         ];
 
     public function items(): HasMany
