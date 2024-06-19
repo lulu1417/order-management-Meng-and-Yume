@@ -15,7 +15,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with(['items.product'])->get();
-        return response()->json($orders->load('items.product'));
+        return response()->json($orders);
     }
 
     public function store(StoreOrderRequest $request)
