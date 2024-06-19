@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -22,7 +23,7 @@ class OrderController extends Controller
             function () use ($request) {
                 $order = Order::create(
                     [
-                        'no' => hash_hmac('sha256', time(), 'orderNo'),
+                        'no' => Str::uuid()->toString(),
                         'buyer_name' => $request->buyer_name
                     ]
                 );
