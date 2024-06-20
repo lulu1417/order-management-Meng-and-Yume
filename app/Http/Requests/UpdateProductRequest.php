@@ -29,7 +29,8 @@ class UpdateProductRequest extends FormRequest
                     'sometimes',
                     'required',
                     'string',
-                    'max:255'
+                    'max:255',
+                    'unique:products,name'
                 ],
             'price' =>
                 [
