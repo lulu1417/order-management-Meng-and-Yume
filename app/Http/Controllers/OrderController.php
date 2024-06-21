@@ -52,7 +52,7 @@ class OrderController extends Controller
                             if (isset($item['_delete']) && $item['_delete']) {
                                 OrderItem::destroy($item['id']);
                             } else {
-                                $orderItem = OrderItem::findOrFail($item['id']);
+                                $orderItem = $order->items()->findOrFail($item['id']);
                                 $orderItem->update($item);
                             }
                         } else {
