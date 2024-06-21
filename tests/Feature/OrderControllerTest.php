@@ -34,24 +34,27 @@ class OrderControllerTest extends TestCase
         $res = $this->get('api/orders');
         $res->assertJson(
             [
-                [
-                    'id' => $orders[0]->id,
-                    'no' => $orders[0]->no,
-                    'buyer_name' => $orders[0]->buyer_name,
-                    'total_amount' => 50,
-                    'created_at' => Carbon::parse(
-                        $orders[0]->created_at
-                    )->toISOString(),
-                ],
-                [
-                    'id' => $orders[1]->id,
-                    'no' => $orders[1]->no,
-                    'buyer_name' => $orders[1]->buyer_name,
-                    'total_amount' => 100,
-                    'created_at' => Carbon::parse(
-                        $orders[1]->created_at
-                    )->toISOString(),
-                ],
+                'data' =>
+                    [
+                        [
+                            'id' => $orders[0]->id,
+                            'no' => $orders[0]->no,
+                            'buyer_name' => $orders[0]->buyer_name,
+                            'total_amount' => 50,
+                            'created_at' => Carbon::parse(
+                                $orders[0]->created_at
+                            )->toISOString(),
+                        ],
+                        [
+                            'id' => $orders[1]->id,
+                            'no' => $orders[1]->no,
+                            'buyer_name' => $orders[1]->buyer_name,
+                            'total_amount' => 100,
+                            'created_at' => Carbon::parse(
+                                $orders[1]->created_at
+                            )->toISOString(),
+                        ],
+                    ]
             ]
         );
     }

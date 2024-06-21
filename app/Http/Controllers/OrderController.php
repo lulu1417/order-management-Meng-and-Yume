@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with(['items.product'])->get();
+        $orders = Order::with(['items.product'])->paginate();
         return response()->json($orders);
     }
 

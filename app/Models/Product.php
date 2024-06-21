@@ -12,8 +12,7 @@ class Product extends Model
 
     protected $fillable = [
             'name',
-            'price',
-            'description'
+            'price'
         ];
 
     public function items(): HasMany

@@ -19,16 +19,18 @@ class ProductControllerTest extends TestCase
         $res = $this->get('api/products');
         $res->assertJson(
             [
-                [
-                    'id' => $products[0]->id,
-                    'name' => $products[0]->name,
-                    'price' => $products[0]->price
-                ],
-                [
-                    'id' => $products[1]->id,
-                    'name' => $products[1]->name,
-                    'price' => $products[1]->price
-                ],
+                'data' => [
+                    [
+                        'id' => $products[0]->id,
+                        'name' => $products[0]->name,
+                        'price' => $products[0]->price
+                    ],
+                    [
+                        'id' => $products[1]->id,
+                        'name' => $products[1]->name,
+                        'price' => $products[1]->price
+                    ],
+                ]
             ]
         );
     }
